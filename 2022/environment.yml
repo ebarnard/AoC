@@ -1,0 +1,9 @@
+name: aoc2022
+channels:
+  - conda-forge
+dependencies:
+  - black >=22.10.0
+  - cvxopt >=1.3.0,<1.4
+  - cvxpy >=1.2.2,<1.3
+  - numpy >=1.24.0,<1.25
+  - python >=3.10.8,<3.11
