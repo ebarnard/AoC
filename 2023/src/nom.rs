@@ -10,6 +10,11 @@ pub fn uint32(s: &str) -> IResult<&str, u32> {
     Ok((s, number.parse().unwrap()))
 }
 
+pub fn uint64(s: &str) -> IResult<&str, u64> {
+    let (s, number) = take_while1(char::is_numeric)(s)?;
+    Ok((s, number.parse().unwrap()))
+}
+
 pub fn ws<'a, F: 'a, O, E: ParseError<&'a str>>(
     inner: F,
 ) -> impl FnMut(&'a str) -> IResult<&'a str, O, E>
