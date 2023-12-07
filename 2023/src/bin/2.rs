@@ -1,6 +1,7 @@
+use aoc2023::nom::uint32;
 use nom::{
     branch::alt,
-    bytes::complete::{tag, take_while1},
+    bytes::complete::tag,
     combinator::complete,
     multi::separated_list1,
     sequence::{preceded, separated_pair},
@@ -33,7 +34,7 @@ fn main() {
 fn parse(s: &str) -> Vec<Game> {
     fn game(s: &str) -> IResult<&str, Game> {
         let (s, (id, draws)) = separated_pair(
-            preceded(tag("Game "), uinteger),
+            preceded(tag("Game "), uint32),
             tag(": "),
             separated_list1(tag("; "), draw),
         )(s)?;
@@ -45,7 +46,7 @@ fn parse(s: &str) -> Vec<Game> {
         let (s, counts) = separated_list1(
             tag(", "),
             separated_pair(
-                uinteger,
+                uint32,
                 tag(" "),
                 alt((tag("red"), tag("green"), tag("blue"))),
             ),
@@ -64,13 +65,7 @@ fn parse(s: &str) -> Vec<Game> {
         Ok((s, draw))
     }
 
-    fn uinteger(s: &str) -> IResult<&str, u32> {
-        let (s, number) = take_while1(char::is_numeric)(s)?;
-        Ok((s, number.parse().unwrap()))
-    }
-
     let (_, games) = complete(separated_list1(tag("\n"), game))(s).unwrap();
-
     games
 }
 
