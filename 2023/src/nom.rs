@@ -15,6 +15,10 @@ pub fn uint64(s: &str) -> IResult<&str, u64> {
     Ok((s, number.parse().unwrap()))
 }
 
+pub fn alphanum(s: &str) -> IResult<&str, &str> {
+    take_while1(|c| char::is_ascii_alphanumeric(&c))(s)
+}
+
 pub fn ws<'a, F: 'a, O, E: ParseError<&'a str>>(
     inner: F,
 ) -> impl FnMut(&'a str) -> IResult<&'a str, O, E>
