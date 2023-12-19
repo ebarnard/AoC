@@ -1,5 +1,6 @@
 use nom::{
-    bytes::complete::{take_while, take_while1},
+    bytes::complete::{take, take_while, take_while1},
+    combinator::map,
     error::ParseError,
     sequence::delimited,
     IResult,
@@ -17,6 +18,10 @@ pub fn uint64(s: &str) -> IResult<&str, u64> {
 
 pub fn alphanum(s: &str) -> IResult<&str, &str> {
     take_while1(|c| char::is_ascii_alphanumeric(&c))(s)
+}
+
+pub fn character(s: &str) -> IResult<&str, char> {
+    map(take(1usize), |s: &str| s.chars().next().unwrap())(s)
 }
 
 pub fn ws<'a, F: 'a, O, E: ParseError<&'a str>>(
