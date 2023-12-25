@@ -16,6 +16,11 @@ pub fn uint64(s: &str) -> IResult<&str, u64> {
     Ok((s, number.parse().unwrap()))
 }
 
+pub fn int128(s: &str) -> IResult<&str, i128> {
+    let (s, number) = take_while1(|c: char| c.is_numeric() || c == '-')(s)?;
+    Ok((s, number.parse().unwrap()))
+}
+
 pub fn alphanum(s: &str) -> IResult<&str, &str> {
     take_while1(|c| char::is_ascii_alphanumeric(&c))(s)
 }
