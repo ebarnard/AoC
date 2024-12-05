@@ -1,12 +1,7 @@
 use itertools::Itertools;
-use nom::{
-    bytes::complete::tag,
-    combinator::{complete, eof},
-    multi::separated_list0,
-    sequence::terminated,
-};
+use nom::{bytes::complete::tag, multi::separated_list0};
 
-use aoc2024::nom::{uint32, ws};
+use aoc2024::nom::{parse_all, uint32, ws};
 
 const TEST: &str = include_str!("../../inputs/2-test.txt");
 const REAL: &str = include_str!("../../inputs/2-real.txt");
@@ -22,8 +17,7 @@ fn parse(input: &str) -> Vec<Vec<u32>> {
     let line = separated_list0(ws, uint32);
     let lines = separated_list0(tag("\n"), line);
 
-    let (_, parsed) = complete(terminated(lines, eof))(input).unwrap();
-    parsed
+    parse_all(input, lines)
 }
 
 fn is_safe(report: impl Iterator<Item = u32> + Clone) -> bool {

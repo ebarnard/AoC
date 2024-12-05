@@ -1,4 +1,21 @@
-use nom::{bytes::complete::take_while1, IResult};
+use std::fmt::Debug;
+
+use nom::{
+    bytes::complete::take_while1,
+    combinator::{complete, eof},
+    error::ParseError,
+    sequence::terminated,
+    IResult, Parser,
+};
+
+pub fn parse_all<'a, O, E, F>(input: &'a str, parser: F) -> O
+where
+    E: ParseError<&'a str> + Debug,
+    F: Parser<&'a str, O, E>,
+{
+    let (_, parsed) = complete(terminated(parser, eof))(input).unwrap();
+    parsed
+}
 
 pub fn uint32(s: &str) -> IResult<&str, u32> {
     let (s, number) = take_while1(char::is_numeric)(s)?;

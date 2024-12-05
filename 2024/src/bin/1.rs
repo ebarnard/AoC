@@ -1,13 +1,8 @@
 use std::collections::HashMap;
 
-use nom::{
-    bytes::complete::tag,
-    combinator::{complete, eof},
-    multi::separated_list0,
-    sequence::{separated_pair, terminated},
-};
+use nom::{bytes::complete::tag, multi::separated_list0, sequence::separated_pair};
 
-use aoc2024::nom::{uint32, ws};
+use aoc2024::nom::{parse_all, uint32, ws};
 
 const TEST: &str = include_str!("../../inputs/1-test.txt");
 const REAL: &str = include_str!("../../inputs/1-real.txt");
@@ -23,7 +18,7 @@ fn parse(input: &str) -> (Vec<u32>, Vec<u32>) {
     let line = separated_pair(uint32, ws, uint32);
     let lines = separated_list0(tag("\n"), line);
 
-    let (_, parsed) = complete(terminated(lines, eof))(input).unwrap();
+    let parsed = parse_all(input, lines);
     parsed.into_iter().unzip()
 }
 
