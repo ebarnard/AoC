@@ -22,6 +22,11 @@ pub fn uint32(s: &str) -> IResult<&str, u32> {
     Ok((s, number.parse().unwrap()))
 }
 
+pub fn uint64(s: &str) -> IResult<&str, u64> {
+    let (s, number) = take_while1(char::is_numeric)(s)?;
+    Ok((s, number.parse().unwrap()))
+}
+
 pub fn ws(s: &str) -> IResult<&str, &str> {
     take_while1(|c| c == ' ')(s)
 }
