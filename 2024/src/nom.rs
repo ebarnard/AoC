@@ -17,6 +17,11 @@ where
     parsed
 }
 
+pub fn uint8(s: &str) -> IResult<&str, u8> {
+    let (s, number) = take_while1(char::is_numeric)(s)?;
+    Ok((s, number.parse().unwrap()))
+}
+
 pub fn uint32(s: &str) -> IResult<&str, u32> {
     let (s, number) = take_while1(char::is_numeric)(s)?;
     Ok((s, number.parse().unwrap()))
